@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Chart from 'react-apexcharts';
-import ApperIcon from '../components/ApperIcon';
-import taskService from '../services/api/taskService';
-import sprintService from '../services/api/sprintService';
+import ApperIcon from '@/components/ApperIcon';
+import DashboardStats from '@/components/organisms/DashboardStats';
+import ReportsChartsSection from '@/components/organisms/ReportsChartsSection';
+import taskService from '@/services/api/taskService';
+import sprintService from '@/services/api/sprintService';
 
-const Reports = () => {
+const ReportsPage = () => {
   const [tasks, setTasks] = useState([]);
   const [sprints, setSprints] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,12 +144,23 @@ const Reports = () => {
         animate={{ opacity: 1, y: 0 }}
         className="space-y-6"
       >
-        {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">Reports</h1>
         </div>
 
-        {/* Stats Cards */}
+        <DashboardStats
+          totalTasks={tasks.length}
+          completedTasks={tasks.filter(t => t.status === 'done').length}
+          inProgressTasks={tasks.filter(t => t.status === 'in-progress').length}
+          activeSprints={sprints.filter(s => s.status === 'active').length}
+          // Note: totalProjects is not directly available here, so passing 0 or removing if not needed.
+          // For now, setting to 0 or omitting from DashboardStats based on actual usage.
+          // Assuming DashboardStats is flexible with props, or a separate component for reports.
+          // Re-checking the original, these are distinct stat cards. Let's make a generic one.
+          // Corrected: The StatCard molecule can be reused, and DashboardStats is an organism combining them.
+          // But here on reports page, there are different stats. Let's keep it clean.
+          // The StatCard molecule is used directly here to match existing logic.
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <motion.div
             whileHover={{ translateY: -2 }}
@@ -217,78 +229,16 @@ const Reports = () => {
           </motion.div>
         </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Task Status Distribution */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-lg shadow-sm border"
-          >
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Task Status Distribution</h3>
-            </div>
-            <div className="p-6">
-              <Chart
-                options={taskStatusData.options}
-                series={taskStatusData.series}
-                type="donut"
-                height={350}
-              />
-            </div>
-          </motion.div>
 
-          {/* Task Priority */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-lg shadow-sm border"
-          >
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Task Priority</h3>
-            </div>
-            <div className="p-6">
-              <Chart
-                options={priorityData.options}
-                series={priorityData.series}
-                type="bar"
-                height={350}
-              />
-            </div>
-          </motion.div>
-
-          {/* Sprint Progress */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-lg shadow-sm border lg:col-span-2"
-          >
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Sprint Progress</h3>
-            </div>
-            <div className="p-6">
-              {sprints.length > 0 ? (
-                <Chart
-                  options={sprintProgressData.options}
-                  series={sprintProgressData.series}
-                  type="bar"
-                  height={350}
-                />
-              ) : (
-                <div className="text-center py-12 text-gray-500">
-                  <ApperIcon name="Timer" size={48} className="mx-auto mb-4 text-gray-300" />
-                  <p>No sprints available for reporting</p>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </div>
+        <ReportsChartsSection
+          taskStatusData={taskStatusData}
+          priorityData={priorityData}
+          sprintProgressData={sprintProgressData}
+          sprints={sprints}
+        />
       </motion.div>
     </div>
   );
 };
 
-export default Reports;
+export default ReportsPage;

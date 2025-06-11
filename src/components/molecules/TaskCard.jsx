@@ -1,8 +1,10 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import UserAvatar from '@/components/molecules/UserAvatar';
 
 const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false }) => {
-  const getPriorityColor = (priority) => {
+  const getPriorityBorderColor = (priority) => {
     switch (priority) {
       case 'high':
         return 'border-l-error';
@@ -15,7 +17,20 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
     }
   };
 
-  const getStatusColor = (status) => {
+  const getPriorityTextColor = (priority) => {
+    switch (priority) {
+      case 'high':
+        return 'text-error';
+      case 'medium':
+        return 'text-warning';
+      case 'low':
+        return 'text-success';
+      default:
+        return 'text-gray-400';
+    }
+  };
+
+  const getStatusClasses = (status) => {
     switch (status) {
       case 'done':
         return 'bg-success/10 text-success';
@@ -33,7 +48,7 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
       <motion.div
         whileHover={{ translateY: -2, boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
         onClick={onClick}
-        className={`bg-white p-4 rounded-lg shadow-sm border-l-4 cursor-pointer transition-all max-w-full ${getPriorityColor(task.priority)}`}
+        className={`bg-white p-4 rounded-lg shadow-sm border-l-4 cursor-pointer transition-all max-w-full ${getPriorityBorderColor(task.priority)}`}
       >
         <div className="flex items-start justify-between space-x-4">
           <div className="min-w-0 flex-1">
@@ -41,7 +56,7 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
               <span className="text-xs font-mono text-gray-500">
                 {task.id.toUpperCase()}
               </span>
-              <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(task.status)}`}>
+              <span className={`px-2 py-1 text-xs rounded-full ${getStatusClasses(task.status)}`}>
                 {task.status.replace('-', ' ')}
               </span>
             </div>
@@ -53,16 +68,9 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
             <ApperIcon
               name="Flag"
               size={16}
-              className={
-                task.priority === 'high' ? 'text-error' :
-                task.priority === 'medium' ? 'text-warning' : 'text-success'
-              }
+              className={getPriorityTextColor(task.priority)}
             />
-            {assignee && (
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-xs font-medium">
-                {assignee.name.split(' ').map(n => n[0]).join('')}
-              </div>
-            )}
+            {assignee && <UserAvatar user={assignee} size="medium" />}
           </div>
         </div>
       </motion.div>
@@ -73,15 +81,12 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
     <motion.div
       whileHover={{ translateY: -2, boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
       onClick={onClick}
-      className={`bg-white rounded-lg shadow-sm border cursor-pointer transition-all overflow-hidden ${
+      className={`bg-white rounded-lg shadow-sm border cursor-pointer transition-all overflow-hidden relative ${
         compact ? 'p-3' : 'p-4'
       }`}
     >
       {/* Priority indicator */}
-      <div className={`absolute top-0 left-0 w-1 h-full ${
-        task.priority === 'high' ? 'bg-error' :
-        task.priority === 'medium' ? 'bg-warning' : 'bg-success'
-      }`} />
+      <div className={`absolute top-0 left-0 w-1 h-full ${getPriorityTextColor(task.priority).replace('text-', 'bg-')}`} />
       
       <div className="relative pl-3">
         {/* Task ID and Status */}
@@ -92,10 +97,7 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
           <ApperIcon
             name="Flag"
             size={12}
-            className={
-              task.priority === 'high' ? 'text-error' :
-              task.priority === 'medium' ? 'text-warning' : 'text-success'
-            }
+            className={getPriorityTextColor(task.priority)}
           />
         </div>
 
@@ -122,13 +124,7 @@ const TaskCard = ({ task, assignee, onClick, layout = 'card', compact = false })
             )}
           </div>
           
-          {assignee && (
-            <div className={`bg-primary rounded-full flex items-center justify-center text-white text-xs font-medium ${
-              compact ? 'w-6 h-6' : 'w-8 h-8'
-            }`}>
-              {assignee.name.split(' ').map(n => n[0]).join('')}
-            </div>
-          )}
+          {assignee && <UserAvatar user={assignee} size={compact ? 'small' : 'medium'} />}
         </div>
       </div>
     </motion.div>

@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import ApperIcon from './ApperIcon';
-import taskService from '../services/api/taskService';
+import ApperIcon from '@/components/ApperIcon';
+import Input from '@/components/atoms/Input';
+import taskService from '@/services/api/taskService';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -53,7 +54,7 @@ const SearchBar = () => {
   const handleTaskSelect = (task) => {
     setQuery('');
     setIsOpen(false);
-    navigate('/board');
+    navigate('/board'); // Assuming navigating to board highlights the task or opens its modal
   };
 
   const getPriorityColor = (priority) => {
@@ -69,7 +70,7 @@ const SearchBar = () => {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusClasses = (status) => {
     switch (status) {
       case 'done':
         return 'bg-success/10 text-success';
@@ -90,8 +91,7 @@ const SearchBar = () => {
           size={16}
           className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
         />
-        <input
-          type="text"
+        <Input
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -99,7 +99,7 @@ const SearchBar = () => {
           }}
           onFocus={() => setIsOpen(query.length >= 2)}
           placeholder="Search tasks..."
-          className="w-64 pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+          className="pl-10 pr-4 py-2 w-64"
         />
       </div>
 
@@ -131,10 +131,7 @@ const SearchBar = () => {
                     className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-start space-x-3">
-                      <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
-                        task.priority === 'high' ? 'bg-error' :
-                        task.priority === 'medium' ? 'bg-warning' : 'bg-success'
-                      }`} />
+                      <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${getPriorityColor(task.priority).replace('text-', 'bg-')}`} />
                       <div className="min-w-0 flex-1">
                         <p className="font-medium text-sm text-gray-900 truncate">
                           {task.title}
@@ -143,7 +140,7 @@ const SearchBar = () => {
                           {task.description}
                         </p>
                         <div className="flex items-center space-x-2 mt-2">
-                          <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(task.status)}`}>
+                          <span className={`px-2 py-1 text-xs rounded-full ${getStatusClasses(task.status)}`}>
                             {task.status.replace('-', ' ')}
                           </span>
                           <ApperIcon

@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ApperIcon from './ApperIcon';
-import projectService from '../services/api/projectService';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
+import projectService from '@/services/api/projectService';
 
 const ProjectSelector = () => {
   const [projects, setProjects] = useState([]);
@@ -43,18 +44,18 @@ const ProjectSelector = () => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <motion.button
+      <Button
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+        className="text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100"
       >
         <ApperIcon name="FolderOpen" size={16} />
         <span className="max-w-32 truncate">
           {selectedProject ? selectedProject.name : 'Select Project'}
         </span>
         <ApperIcon name="ChevronDown" size={16} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-      </motion.button>
+      </Button>
 
       <AnimatePresence>
         {isOpen && (

@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout';
-import Home from './pages/Home';
-import Board from './pages/Board';
-import Backlog from './pages/Backlog';
-import Sprints from './pages/Sprints';
-import Reports from './pages/Reports';
-import Settings from './pages/Settings';
-import NotFound from './pages/NotFound';
+import HomePage from '@/components/pages/HomePage';
+import BoardPage from '@/components/pages/BoardPage';
+import BacklogPage from '@/components/pages/BacklogPage';
+import SprintsPage from '@/components/pages/SprintsPage';
+import ReportsPage from '@/components/pages/ReportsPage';
+import SettingsPage from '@/components/pages/SettingsPage';
+import NotFoundPage from '@/components/pages/NotFoundPage';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -17,13 +17,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/board" replace />} />
-            <Route path="home" element={<Home />} />
-            <Route path="board" element={<Board />} />
-            <Route path="backlog" element={<Backlog />} />
-            <Route path="sprints" element={<Sprints />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="*" element={<NotFound />} />
+<Route path="home" element={<HomePage />} />
+            <Route path="board" element={<BoardPage />} />
+            <Route path="backlog" element={<BacklogPage />} />
+            <Route path="sprints" element={<SprintsPage />} />
+            <Route path="reports" element={<ReportsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
         

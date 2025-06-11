@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import ApperIcon from './components/ApperIcon';
-import { routeArray } from './config/routes';
-import ProjectSelector from './components/ProjectSelector';
-import CreateTaskButton from './components/CreateTaskButton';
-import SearchBar from './components/SearchBar';
+import ApperIcon from '@/components/ApperIcon';
+import ProjectSelector from '@/components/molecules/ProjectSelector';
+import SearchBar from '@/components/organisms/SearchBar';
+import CreateTaskButton from '@/components/organisms/CreateTaskButton';
+
+// Define route array for navigation
+const routeArray = [
+  { id: 1, path: '/', label: 'Dashboard', icon: 'Home' },
+  { id: 2, path: '/projects', label: 'Projects', icon: 'FolderOpen' },
+  { id: 3, path: '/tasks', label: 'Tasks', icon: 'CheckSquare' },
+  { id: 4, path: '/calendar', label: 'Calendar', icon: 'Calendar' },
+  { id: 5, path: '/reports', label: 'Reports', icon: 'BarChart3' },
+];
 
 const Layout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,17 +26,15 @@ const Layout = () => {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="flex-shrink-0 h-15 bg-white border-b border-gray-200 z-40">
+<header className="flex-shrink-0 h-15 bg-white border-b border-gray-200 z-40">
         <div className="h-full flex items-center justify-between px-4">
           <div className="flex items-center space-x-4">
-            {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
               className="md:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ApperIcon name="Menu" size={20} />
             </button>
-            
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">

@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from './ApperIcon';
-import TaskCard from './TaskCard';
-import sprintService from '../services/api/sprintService';
-import taskService from '../services/api/taskService';
+import ApperIcon from '@/components/ApperIcon';
+import ModalBackdrop from '@/components/atoms/ModalBackdrop';
+import Button from '@/components/atoms/Button';
+import TaskCard from '@/components/molecules/TaskCard';
+import sprintService from '@/services/api/sprintService';
+import taskService from '@/services/api/taskService';
 
 const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
   const [sprintTasks, setSprintTasks] = useState(
@@ -16,14 +18,12 @@ const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
 
   const handleAddToSprint = async (task) => {
     try {
-      // Update task to assign it to sprint
       const updatedTask = await taskService.update(task.id, {
         ...task,
         sprintId: sprint.id,
         updatedAt: new Date().toISOString()
       });
 
-      // Move task from backlog to sprint
       setBacklogTasks(prev => prev.filter(t => t.id !== task.id));
       setSprintTasks(prev => [...prev, updatedTask]);
 
@@ -35,14 +35,12 @@ const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
 
   const handleRemoveFromSprint = async (task) => {
     try {
-      // Update task to remove it from sprint
       const updatedTask = await taskService.update(task.id, {
         ...task,
         sprintId: null,
         updatedAt: new Date().toISOString()
       });
 
-      // Move task from sprint to backlog
       setSprintTasks(prev => prev.filter(t => t.id !== task.id));
       setBacklogTasks(prev => [...prev, updatedTask]);
 
@@ -54,7 +52,6 @@ const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
 
   const handleSave = async () => {
     try {
-      // Update sprint with new task IDs
       const updatedSprint = await sprintService.update(sprint.id, {
         ...sprint,
         taskIds: sprintTasks.map(task => task.id)
@@ -69,16 +66,8 @@ const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
 
   return (
     <>
-      {/* Backdrop */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 z-50"
-        onClick={onClose}
-      />
+      <ModalBackdrop onClick={onClose} />
       
-      {/* Modal */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -86,33 +75,30 @@ const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
         className="fixed inset-0 z-50 flex items-center justify-center p-4"
       >
         <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-96 overflow-hidden flex flex-col">
-          {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div>
               <h2 className="text-lg font-medium text-gray-900">Sprint Planning</h2>
               <p className="text-sm text-gray-600 mt-1">{sprint.name}</p>
             </div>
             <div className="flex items-center space-x-3">
-              <motion.button
+              <Button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSave}
-                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                className="bg-primary text-white hover:bg-primary/90"
               >
                 Save Changes
-              </motion.button>
-              <button
+              </Button>
+              <Button
                 onClick={onClose}
                 className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <ApperIcon name="X" size={20} />
-              </button>
+              </Button>
             </div>
           </div>
 
-          {/* Content */}
           <div className="flex-1 flex overflow-hidden">
-            {/* Backlog */}
             <div className="w-1/2 border-r border-gray-200 flex flex-col">
               <div className="p-4 border-b border-gray-200 bg-gray-50">
                 <h3 className="font-medium text-gray-900">
@@ -149,7 +135,6 @@ const SprintPlanningModal = ({ sprint, tasks, onClose, onUpdate }) => {
               </div>
             </div>
 
-            {/* Sprint */}
             <div className="w-1/2 flex flex-col">
               <div className="p-4 border-b border-gray-200 bg-primary/5">
                 <h3 className="font-medium text-gray-900">

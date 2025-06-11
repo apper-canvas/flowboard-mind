@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '../components/ApperIcon';
-import TaskCard from '../components/TaskCard';
-import TaskModal from '../components/TaskModal';
-import FilterBar from '../components/FilterBar';
-import taskService from '../services/api/taskService';
-import userService from '../services/api/userService';
+import ApperIcon from '@/components/ApperIcon';
+import FilterBar from '@/components/molecules/FilterBar';
+import KanbanColumn from '@/components/organisms/KanbanColumn';
+import TaskModal from '@/components/organisms/Modals/TaskModal';
+import Button from '@/components/atoms/Button';
+import taskService from '@/services/api/taskService';
+import userService from '@/services/api/userService';
 
-const Board = () => {
+const BoardPage = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -135,14 +136,12 @@ const Board = () => {
   if (loading) {
     return (
       <div className="p-6">
-        {/* Filter Bar Skeleton */}
         <div className="mb-6 flex items-center space-x-4">
           <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
           <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
           <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
         </div>
         
-        {/* Board Skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="bg-white rounded-lg shadow-sm border">
@@ -171,14 +170,14 @@ const Board = () => {
           <ApperIcon name="AlertCircle" size={48} className="text-error mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to load board</h3>
           <p className="text-gray-500 mb-4">{error}</p>
-          <motion.button
+          <Button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={loadTasks}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            className="bg-primary text-white hover:bg-primary/90"
           >
             Try Again
-          </motion.button>
+          </Button>
         </div>
       </div>
     );
@@ -186,73 +185,27 @@ const Board = () => {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      {/* Filter Bar */}
       <div className="flex-shrink-0 p-6 pb-0">
         <FilterBar filters={filters} onFiltersChange={setFilters} />
       </div>
 
-      {/* Kanban Board */}
       <div className="flex-1 p-6 overflow-x-auto">
         <div className="flex space-x-6 min-w-max h-full">
-          {columns.map((column) => {
-            const columnTasks = getTasksByStatus(column.id);
-            
-            return (
-              <motion.div
-                key={column.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex-shrink-0 w-80 bg-white rounded-lg shadow-sm border h-fit max-h-full"
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, column.id)}
-              >
-                {/* Column Header */}
-                <div className={`p-4 rounded-t-lg border-b border-gray-200 ${column.color}`}>
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-gray-900">{column.title}</h3>
-                    <span className="px-2 py-1 bg-white text-sm text-gray-600 rounded-full">
-                      {columnTasks.length}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Column Content */}
-                <div className="p-4 space-y-3 overflow-y-auto max-h-96">
-                  <AnimatePresence>
-                    {columnTasks.length === 0 ? (
-                      <div className="text-center py-8 text-gray-500">
-                        <ApperIcon name="Package" size={32} className="mx-auto mb-2 text-gray-300" />
-                        <p className="text-sm">No tasks in {column.title.toLowerCase()}</p>
-                      </div>
-                    ) : (
-                      columnTasks.map((task, index) => (
-                        <motion.div
-                          key={task.id}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ delay: index * 0.1 }}
-                          draggable
-                          onDragStart={(e) => handleDragStart(e, task)}
-                          className="cursor-move"
-                        >
-                          <TaskCard
-                            task={task}
-                            assignee={getUserById(task.assigneeId)}
-                            onClick={() => setSelectedTask(task)}
-                          />
-                        </motion.div>
-                      ))
-                    )}
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            );
-          })}
+          {columns.map((column) => (
+            <KanbanColumn
+              key={column.id}
+              column={column}
+              tasks={getTasksByStatus(column.id)}
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onTaskClick={setSelectedTask}
+              getAssigneeById={getUserById}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Task Modal */}
       <AnimatePresence>
         {selectedTask && (
           <TaskModal
@@ -267,4 +220,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default BoardPage;

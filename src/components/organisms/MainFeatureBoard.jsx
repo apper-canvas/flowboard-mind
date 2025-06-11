@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from './ApperIcon';
-import TaskCard from './TaskCard';
-import CreateTaskModal from './CreateTaskModal';
-import taskService from '../services/api/taskService';
-import userService from '../services/api/userService';
+import ApperIcon from '@/components/ApperIcon';
+import TaskCard from '@/components/molecules/TaskCard';
+import CreateTaskModal from '@/components/organisms/Modals/CreateTaskModal';
+import taskService from '@/services/api/taskService';
+import userService from '@/services/api/userService';
+import Button from '@/components/atoms/Button';
 
-const MainFeature = () => {
+const MainFeatureBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -116,7 +117,7 @@ const MainFeature = () => {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <div className="h-8 bg-gray-200 rounded w-48 animate-pulse"></div>
+          <div className="h-8 bg-gray-200 rounded w-48 mb-6 animate-pulse"></div>
           <div className="h-10 bg-gray-200 rounded w-32 animate-pulse"></div>
         </div>
         
@@ -137,7 +138,6 @@ const MainFeature = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">Project Board</h2>
@@ -145,18 +145,17 @@ const MainFeature = () => {
             Drag and drop tasks between columns to update their status
           </p>
         </div>
-        <motion.button
+        <Button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center space-x-2"
+          className="bg-primary text-white hover:bg-primary/90"
         >
           <ApperIcon name="Plus" size={16} />
           <span>Create Task</span>
-        </motion.button>
+        </Button>
       </div>
 
-      {/* Kanban Board */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {columns.map((column) => {
           const columnTasks = getTasksByStatus(column.id);
@@ -170,7 +169,6 @@ const MainFeature = () => {
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, column.id)}
             >
-              {/* Column Header */}
               <div className={`p-4 rounded-t-lg border-b border-gray-200 ${column.color}`}>
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium text-gray-900">{column.title}</h3>
@@ -180,7 +178,6 @@ const MainFeature = () => {
                 </div>
               </div>
 
-              {/* Column Content */}
               <div className="p-4 space-y-3 min-h-40">
                 {columnTasks.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
@@ -212,16 +209,14 @@ const MainFeature = () => {
         })}
       </div>
 
-      {/* Create Task Modal */}
       {showCreateModal && (
         <CreateTaskModal
           onClose={() => setShowCreateModal(false)}
-          onCreate={handleCreateTask}
-          users={users}
+          onCreateSuccess={handleCreateTask}
         />
       )}
     </div>
   );
 };
 
-export default MainFeature;
+export default MainFeatureBoard;

@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from '../components/ApperIcon';
-import TaskCard from '../components/TaskCard';
-import TaskModal from '../components/TaskModal';
-import FilterBar from '../components/FilterBar';
-import taskService from '../services/api/taskService';
-import userService from '../services/api/userService';
+import ApperIcon from '@/components/ApperIcon';
+import TaskCard from '@/components/molecules/TaskCard';
+import FilterBar from '@/components/molecules/FilterBar';
+import TaskModal from '@/components/organisms/Modals/TaskModal';
+import Button from '@/components/atoms/Button';
+import taskService from '@/services/api/taskService';
+import userService from '@/services/api/userService';
 
-const Backlog = () => {
+const BacklogPage = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +59,6 @@ const Backlog = () => {
     );
   });
 
-  // Sort tasks by priority and creation date
   const sortedTasks = filteredTasks.sort((a, b) => {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
     const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
@@ -125,14 +125,14 @@ const Backlog = () => {
           <ApperIcon name="AlertCircle" size={48} className="text-error mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to load backlog</h3>
           <p className="text-gray-500 mb-4">{error}</p>
-          <motion.button
+          <Button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={loadTasks}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            className="bg-primary text-white hover:bg-primary/90"
           >
             Try Again
-          </motion.button>
+          </Button>
         </div>
       </div>
     );
@@ -173,37 +173,41 @@ const Backlog = () => {
           </motion.div>
         ) : (
           <div className="space-y-3 max-w-full">
-            {sortedTasks.map((task, index) => (
-              <motion.div
-                key={task.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="w-full"
-              >
-                <TaskCard
-                  task={task}
-                  assignee={getUserById(task.assigneeId)}
-                  onClick={() => setSelectedTask(task)}
-                  layout="list"
-                />
-              </motion.div>
-            ))}
+            <AnimatePresence mode="popLayout">
+              {sortedTasks.map((task, index) => (
+                <motion.div
+                  key={task.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="w-full"
+                >
+                  <TaskCard
+                    task={task}
+                    assignee={getUserById(task.assigneeId)}
+                    onClick={() => setSelectedTask(task)}
+                    layout="list"
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         )}
       </div>
 
-      {/* Task Modal */}
-      {selectedTask && (
-        <TaskModal
-          task={selectedTask}
-          assignee={getUserById(selectedTask.assigneeId)}
-          onClose={() => setSelectedTask(null)}
-          onUpdate={handleTaskUpdate}
-        />
-      )}
+      <AnimatePresence>
+        {selectedTask && (
+          <TaskModal
+            task={selectedTask}
+            assignee={getUserById(selectedTask.assigneeId)}
+            onClose={() => setSelectedTask(null)}
+            onUpdate={handleTaskUpdate}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default Backlog;
+export default BacklogPage;
