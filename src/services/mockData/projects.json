@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "name": "FlowBoard Core Platform",
+    "key": "FCP",
+    "description": "Core project management platform development with advanced Kanban boards and sprint planning capabilities",
+    "workflow": ["to-do", "in-progress", "testing", "done"],
+    "createdAt": "2024-01-15T09:00:00.000Z"
+  },
+  {
+    "id": "2", 
+    "name": "Mobile App Development",
+    "key": "MAD",
+    "description": "Native mobile application for iOS and Android platforms with offline-first architecture",
+    "workflow": ["to-do", "in-progress", "testing", "done"],
+    "createdAt": "2024-01-20T14:30:00.000Z"
+  },
+  {
+    "id": "3",
+    "name": "Enterprise Integration Suite",
+    "key": "EIS", 
+    "description": "Advanced integrations with enterprise tools like Slack, Microsoft Teams, and Google Workspace for seamless workflow automation",
+    "workflow": ["to-do", "in-progress", "testing", "done"],
+    "createdAt": "2024-02-01T11:15:00.000Z"
+  },
+  {
+    "id": "4",
+    "name": "Analytics & Reporting Dashboard",
+    "key": "ARD",
+    "description": "Comprehensive analytics dashboard with advanced reporting capabilities, real-time metrics, and customizable charts",
+    "workflow": ["to-do", "in-progress", "testing", "done"],
+    "createdAt": "2024-02-10T16:45:00.000Z"
+  }
+]

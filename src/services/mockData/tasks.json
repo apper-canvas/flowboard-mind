@@ -1,0 +1,192 @@
+[
+  {
+    "id": "fcp-001",
+    "projectId": "1",
+    "title": "Implement drag-and-drop functionality for Kanban board",
+    "description": "Create smooth drag-and-drop interactions for task cards between columns with visual feedback and animations",
+    "status": "done",
+    "priority": "high",
+    "assigneeId": "1",
+    "sprintId": "1",
+    "createdAt": "2024-03-01T10:30:00.000Z",
+    "updatedAt": "2024-03-05T14:20:00.000Z",
+    "comments": [
+      {
+        "id": "c1",
+        "text": "Implemented basic drag functionality, working on visual feedback now",
+        "authorId": "1",
+        "createdAt": "2024-03-02T09:15:00.000Z"
+      },
+      {
+        "id": "c2", 
+        "text": "Added smooth animations and drop zone highlighting. Ready for testing.",
+        "authorId": "1",
+        "createdAt": "2024-03-04T16:30:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "fcp-002",
+    "projectId": "1",
+    "title": "Design and implement task filtering system",
+    "description": "Build comprehensive filtering options by assignee, priority, status, and sprint with real-time search capabilities",
+    "status": "in-progress",
+    "priority": "medium",
+    "assigneeId": "2",
+    "sprintId": "1",
+    "createdAt": "2024-03-02T11:45:00.000Z",
+    "updatedAt": "2024-03-06T13:10:00.000Z",
+    "comments": [
+      {
+        "id": "c3",
+        "text": "Working on the filter dropdown components. Should have the basic functionality ready by end of day.",
+        "authorId": "2",
+        "createdAt": "2024-03-05T10:20:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "fcp-003", 
+    "projectId": "1",
+    "title": "Create responsive design for mobile devices",
+    "description": "Optimize the entire interface for mobile and tablet devices with touch-friendly interactions and collapsible navigation",
+    "status": "testing",
+    "priority": "high",
+    "assigneeId": "3",
+    "sprintId": "1",
+    "createdAt": "2024-03-03T08:20:00.000Z",
+    "updatedAt": "2024-03-07T09:45:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "fcp-004",
+    "projectId": "1", 
+    "title": "Implement real-time collaboration features",
+    "description": "Add WebSocket integration for real-time updates when team members make changes to tasks, with live cursors and presence indicators",
+    "status": "to-do",
+    "priority": "medium",
+    "assigneeId": "4",
+    "sprintId": null,
+    "createdAt": "2024-03-04T14:15:00.000Z",
+    "updatedAt": "2024-03-04T14:15:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "fcp-005",
+    "projectId": "1",
+    "title": "Build advanced reporting dashboard",
+    "description": "Create comprehensive analytics with burndown charts, velocity tracking, and team performance metrics using interactive visualizations",
+    "status": "to-do",
+    "priority": "low",
+    "assigneeId": "1",
+    "sprintId": null,
+    "createdAt": "2024-03-05T16:00:00.000Z",
+    "updatedAt": "2024-03-05T16:00:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "mad-001",
+    "projectId": "2",
+    "title": "Setup React Native development environment",
+    "description": "Configure development tools, simulators, and build pipelines for both iOS and Android platforms with automated testing setup",
+    "status": "done",
+    "priority": "high",
+    "assigneeId": "2",
+    "sprintId": "2", 
+    "createdAt": "2024-03-01T09:00:00.000Z",
+    "updatedAt": "2024-03-02T17:30:00.000Z",
+    "comments": [
+      {
+        "id": "c4",
+        "text": "Development environment is fully configured. Both iOS and Android simulators are working perfectly.",
+        "authorId": "2",
+        "createdAt": "2024-03-02T15:45:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "mad-002",
+    "projectId": "2",
+    "title": "Design mobile-first user interface components",
+    "description": "Create reusable UI components optimized for touch interactions with consistent design language across platforms",
+    "status": "in-progress",
+    "priority": "medium",
+    "assigneeId": "3",
+    "sprintId": "2",
+    "createdAt": "2024-03-02T13:20:00.000Z",
+    "updatedAt": "2024-03-06T11:15:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "mad-003",
+    "projectId": "2",
+    "title": "Implement offline data synchronization",
+    "description": "Build robust offline-first architecture with conflict resolution and automatic sync when connection is restored",
+    "status": "to-do",
+    "priority": "high",
+    "assigneeId": "4",
+    "sprintId": null,
+    "createdAt": "2024-03-03T10:45:00.000Z",
+    "updatedAt": "2024-03-03T10:45:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "eis-001",
+    "projectId": "3",
+    "title": "Research and evaluate integration APIs",
+    "description": "Comprehensive analysis of Slack, Teams, and Google Workspace APIs with implementation strategy and security considerations",
+    "status": "done",
+    "priority": "medium",
+    "assigneeId": "1",
+    "sprintId": null,
+    "createdAt": "2024-02-28T12:00:00.000Z",
+    "updatedAt": "2024-03-01T16:20:00.000Z",
+    "comments": [
+      {
+        "id": "c5",
+        "text": "Completed API research. All three platforms have robust APIs that meet our requirements. Documentation prepared.",
+        "authorId": "1",
+        "createdAt": "2024-03-01T14:30:00.000Z"  
+      }
+    ]
+  },
+  {
+    "id": "eis-002",
+    "projectId": "3",
+    "title": "Build Slack integration middleware",
+    "description": "Develop secure middleware for Slack API integration with proper authentication, rate limiting, and error handling",
+    "status": "testing",
+    "priority": "high",
+    "assigneeId": "2",
+    "sprintId": "3",
+    "createdAt": "2024-03-01T15:30:00.000Z",
+    "updatedAt": "2024-03-07T10:00:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "ard-001", 
+    "projectId": "4",
+    "title": "Design analytics data model and schema",
+    "description": "Create comprehensive data model for tracking user actions, performance metrics, and generating meaningful insights",
+    "status": "in-progress",
+    "priority": "medium",
+    "assigneeId": "3",
+    "sprintId": null,
+    "createdAt": "2024-03-04T09:15:00.000Z",
+    "updatedAt": "2024-03-06T14:45:00.000Z",
+    "comments": []
+  },
+  {
+    "id": "ard-002",
+    "projectId": "4",
+    "title": "Implement interactive chart components",
+    "description": "Build reusable chart components using D3.js or Chart.js with responsive design and customizable themes",
+    "status": "to-do",
+    "priority": "low",
+    "assigneeId": "4",
+    "sprintId": null,
+    "createdAt": "2024-03-05T11:30:00.000Z",
+    "updatedAt": "2024-03-05T11:30:00.000Z",
+    "comments": []
+  }
+]

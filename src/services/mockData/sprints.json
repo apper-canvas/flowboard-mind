@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "projectId": "1",
+    "name": "Core Platform Sprint 1",
+    "startDate": "2024-03-01T00:00:00.000Z",
+    "endDate": "2024-03-15T23:59:59.000Z",
+    "status": "active",
+    "taskIds": ["fcp-001", "fcp-002", "fcp-003"]
+  },
+  {
+    "id": "2", 
+    "projectId": "2",
+    "name": "Mobile Foundation Sprint",
+    "startDate": "2024-03-01T00:00:00.000Z",
+    "endDate": "2024-03-14T23:59:59.000Z",
+    "status": "active",
+    "taskIds": ["mad-001", "mad-002"]
+  },
+  {
+    "id": "3",
+    "projectId": "3", 
+    "name": "Integration Development Sprint",
+    "startDate": "2024-03-04T00:00:00.000Z",
+    "endDate": "2024-03-18T23:59:59.000Z",
+    "status": "planned",
+    "taskIds": ["eis-002"]
+  },
+  {
+    "id": "4",
+    "projectId": "1",
+    "name": "Advanced Features Sprint",
+    "startDate": "2024-03-16T00:00:00.000Z", 
+    "endDate": "2024-03-30T23:59:59.000Z",
+    "status": "planned",
+    "taskIds": []
+  },
+  {
+    "id": "5",
+    "projectId": "2",
+    "name": "Mobile UI/UX Sprint",
+    "startDate": "2024-03-15T00:00:00.000Z",
+    "endDate": "2024-03-29T23:59:59.000Z", 
+    "status": "planned",
+    "taskIds": []
+  }
+]
